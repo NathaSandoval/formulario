@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import axios from "axios"
 import { BASE_URL } from "./constants/users"
@@ -6,6 +6,9 @@ import UserList from "./components/UserList"
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [idUserToEdit, setIdUserToEdit] = useState(null)
+
+  const formRef = useRef(null)
  
   const createUser = (data, form) => {
     axios
@@ -24,14 +27,49 @@ function App() {
     .catch((err) => console.log(err));
   };
 
+  const deleteUser = (id) => {
+    axios
+    .delete(BASE_URL + `/users/${id}/`)
+    .then(() => getAllUsers())
+    .catch((err) => console.log(err));
+  }
+
+  const updateUser = (data) => {
+    axios
+    .put(BASE_URL + `/users/${idUserToEdit}/`, data)
+    .then(() => {
+      getAllUsers();
+      setIdUserToEdit(null);
+      formRef.current.reset();
+    })
+    .catch((err) => console.log(err));
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    createUser(data, e.target);
-  };
+  
+
+    if(idUserToEdit){
+      updateUser(data);
+    }else{
+      createUser(data, e.target);
+    }
+
     
-  useEffect(() => {
+  };
+
+  const handleClickEdit = (userToEdit) => {
+    formRef.current.email.value = userToEdit.email
+    formRef.current.first_name.value = userToEdit.first_name
+    formRef.current.last_name.value = userToEdit.last_name
+    formRef.current.Birthday_date.value = userToEdit.Birthday_date    
+    formRef.current.Password.value = userToEdit.Password;
+    setIdUserToEdit(userToEdit.id)
+  }
+    
+  useEffect(() => {  
    getAllUsers();
   }, []);
 
@@ -39,9 +77,9 @@ function App() {
   return (
     <main>
 
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
 
-        <h2>New user</h2>
+        <h2>{idUserToEdit ? "Edit an existing user" : "Create new user" }</h2>
         <div>
           <label htmlFor="email">Email</label>
           <input id='email' name="email" type="text" />
@@ -56,12 +94,21 @@ function App() {
         </div>
         <div>
           <label htmlFor="birthday">Birthday</label>
-          <input id='birthday' name="birthday" type="date" />
+          <input id='birthday_date' name="birthday_date" type="date" />
         </div>
-        <button type="submit">Create new user</button>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input id='password' name="password" type="text" />
+        </div>
+        <button type="submit">
+          {idUserToEdit ? "Save changes" : "Create new user"}</button>
 
       </form>
-      <UserList users={users}/>
+      <UserList 
+      users={users} 
+      deleteUser={deleteUser} 
+      handleClickEdit={handleClickEdit} 
+      />
     </main>
   );
 }
