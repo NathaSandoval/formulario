@@ -8,9 +8,9 @@ const UserCard = ({user, deleteUser, handleClickEdit, }) => {
       <li>
              <h5>{user.first_name} {user.last_name}</h5>
              <ul>
-              <li>Email {user.email}</li>
-              <li>Birthday {user.birthday_date}</li>
-              <li>Password {user.password}</li>
+              <li>Email: {user.email}</li>
+              <li>Birthday: {user.birthday_date}</li>
+              <li>Password: {user.password}</li>
              </ul>
           </li>
           <div>

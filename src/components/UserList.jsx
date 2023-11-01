@@ -1,7 +1,7 @@
 import UserCard from "./UserCard";
 
-const UserList = ({users, deleteUser, handleClickEdit,  }) => {
- console.log(users);
+const UserList = ({users, deleteUser, handleClickEdit  }) => {
+
   return (
     <ul>
       {users.map((user) => (

@@ -64,9 +64,9 @@ function App() {
     formRef.current.email.value = userToEdit.email
     formRef.current.first_name.value = userToEdit.first_name
     formRef.current.last_name.value = userToEdit.last_name
-    formRef.current.Birthday_date.value = userToEdit.Birthday_date    
-    formRef.current.Password.value = userToEdit.Password;
-    setIdUserToEdit(userToEdit.id)
+    formRef.current.birthday.value = userToEdit.birthday   
+    formRef.current.password.value = userToEdit.password;
+    setIdUserToEdit(userToEdit.id);
   }
     
   useEffect(() => {  
@@ -81,24 +81,24 @@ function App() {
 
         <h2>{idUserToEdit ? "Edit an existing user" : "Create new user" }</h2>
         <div>
-          <label htmlFor="email">Email</label>
-          <input id='email' name="email" type="text" />
+          <label htmlFor="email">Email: </label>
+          <input id="email" name="email" type="text" />
         </div>
         <div>
-          <label htmlFor="first_name">First_name</label>
-          <input id='first_name'  name="first_name" type="text" />
+          <label htmlFor="first_name">First_name: </label>
+          <input id="first_name"  name="first_name" type="text" />
         </div>
         <div>
-          <label htmlFor="last_name">Last_name</label>
-          <input id='last_name' name="last_name" type="text" />
+          <label htmlFor="last_name">Last_name: </label>
+          <input id="last_name" name="last_name" type="text" />
         </div>
         <div>
-          <label htmlFor="birthday">Birthday</label>
-          <input id='birthday_date' name="birthday_date" type="date" />
+          <label htmlFor="birthday">Birthday: </label>
+          <input id="birthday" name="birthday" type="date" />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
-          <input id='password' name="password" type="text" />
+          <label htmlFor="password">Password: </label>
+          <input id="password" name="password" type="text" />
         </div>
         <button type="submit">
           {idUserToEdit ? "Save changes" : "Create new user"}</button>
